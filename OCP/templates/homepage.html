@@ -1,0 +1,161 @@
+<html>
+<head>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<div class="container">
+    <div class="row form-group" style="margin-top:30px;">
+        <div class="col-lg-6">
+            <a href="{% url 'insert_table' %}" class="btn btn-block btn-success" role="button" aria-pressed="true">Insert Data</a>
+
+        </div>
+        <div class="col-lg-6">
+            <button class="btn btn-block btn-success" id="update_btn">EDIT ALL</button>
+            <button class="btn btn-block btn-success" id="save_all_btn" style="display:none;margin-top:0px">SAVE ALL</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+              <div class="alert alert-success" id="upt_success" style="display:none">
+
+              </div>
+               <div class="alert alert-danger" id="upt_error" style="display:none">
+
+              </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>City</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for value in data %}
+                    <tr>
+                        <td>{{ value.id }}</td>
+                        <td class="editable" data-type="First_Name">{{ value.First_Name }}</td>
+                        <td class="editable" data-type="Last_Name">{{ value.Last_Name }}</td>
+                        <td class="editable" data-type="City">{{ value.City }}</td>
+                        <td class="btn-td-block"><button class="btn btn-block btn-delete btn-danger">DELETE</button></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $("#update_btn").click(function(){
+            $("#update_btn").hide();
+            $("#save_all_btn").show();
+
+       $(".editable").each(function(){
+           var value=$(this).text();
+           var types=$(this).data('type');
+                var html_data="<input type='text' name='"+types+"'  class='form-control input_"+types+" input_data' value='"+value+"'>";
+                $(this).html(html_data);
+        });
+    });
+
+    $("#save_all_btn").click(function(){
+        $("#save_all_btn").attr("disabled","disabled");
+        $("#save_all_btn").text("Saving Data....");
+
+        var json_data=[];
+        $(".input_data").each(function(){
+                var value=$(this).val();
+                var parent_html=$(this).parent();
+                parent_html.html(value);
+                $(this).remove();
+         });
+        $("tbody tr").each(function(){
+             var id=$(this).children().eq(0).text()
+             var First_Name=$(this).children().eq(1).text()
+             var Last_Name=$(this).children().eq(2).text()
+             var City=$(this).children().eq(3).text()
+             var single_data={"id":id,"First_Name":First_Name,"Last_Name":Last_Name,"City":City};
+             json_data.push(single_data);
+        });
+
+        var string_data=JSON.stringify(json_data)
+        $.ajax({
+                url:'{% url 'update_details' %}',
+                type:'POST',
+                data:{data:string_data}
+            })
+            .done(function(response){
+                if(response['error']==false){
+                    $("#upt_error").hide();
+                    $("#upt_success").text(response['errorMessage']);
+                    $("#upt_success").show();
+
+                }
+                else{
+                    $("#upt_success").hide();
+                    $("#upt_error").text(response['errorMessage']);
+                    $("#upt_error").show();
+                }
+            })
+            .fail(function(){
+                 $("#upt_success").hide();
+                 $("#upt_error").text("Something Went Wrong!");
+                 $("#upt_error").show();
+            })
+            .always(function(){
+                 $("#save_all_btn").removeAttr("disabled");
+                 $("#save_all_btn").text("SAVE ALL");
+                 $("#update_btn").show();
+                 $("#save_all_btn").hide();
+            })
+
+    });
+
+    $(document).on("click",".btn-delete",function(){
+            var this_html=$(this);
+            this_html.attr("disabled","disabled");
+            this_html.text("DELETING....");
+            var id=this_html.parent().parent().children().first().text();
+            //console.log(id);
+            $.ajax({
+                url:'{% url 'delete_details' %}',
+                type:'POST',
+                data:{id:id}
+            })
+            .done(function(response){
+                if(response['error']==false){
+                    this_html.parent().parent().remove();
+                    $("#upt_error").hide();
+                    $("#upt_success").text(response['errorMessage']);
+                    $("#upt_success").show();
+
+                }
+                else{
+                    $("#upt_success").hide();
+                    $("#upt_error").text(response['errorMessage']);
+                    $("#upt_error").show();
+                }
+            })
+            .fail(function(){
+                 $("#upt_success").hide();
+                 $("#upt_error").text("Something Went Wrong!");
+                 $("#upt_error").show();
+            });
+    });
+</script>
+</body>
+</html>

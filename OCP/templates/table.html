@@ -1,0 +1,139 @@
+<html>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+body {background: '#bassa55'; font-family: sans-serif;}
+
+p {margin: 1em 0 .5em}
+
+input {
+    font-size: 1.2em;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+input[type="submit"]{
+    margin-top: .5em
+}
+table>tr>td{width:80px;}
+table>tr>td input{width:40px;}
+</style>
+
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <meta charset="utf-8">
+  <title>Dynamic Table</title>
+</head>
+<body>
+
+
+
+<!-------------------------------------------------------------------------------------------------------------------->
+ <label>Number of rows to be generated</label>
+    <input type="number" id="table-row-num" value="0" oninput="myFunction()">
+
+    <div class="container">
+        <div class="row form-group" style="margin-top:30px;">
+            <div class="col-lg-6">
+                <button class="btn btn-block btn-success btn-insert-data Trigger" id="insert_btn" data-toggle="modal" data-target="#insert_data">INSERT</button>
+            </div>
+            <div class="col-lg-6">
+                <a href="{% url 'home' %}" class="btn btn-block btn-success" role="button" aria-pressed="true">View Table</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                  <div class="alert alert-success" id="upt_success" style="display:none">
+
+                  </div>
+                   <div class="alert alert-danger" id="upt_error" style="display:none">
+
+                  </div>
+            </div>
+        </div>
+    <div id= "table-gen">
+        <form id="form" method="post" action="">
+        <table cellpadding="1" cellspacing="1" border="1">
+          <thead>
+          <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>City</th>
+          </tr>
+          </thead>
+        </table>
+      </form>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+function myFunction() {
+  var rows =  document.getElementById("table-row-num").value;
+  var html='<thead>'+
+    '<tr>'  +
+        '<th>ID</th>' +
+          '<th>First Name</th>'+
+        '<th>Last Name</th>'+
+          '<th>City</th>'+
+      '</thead>';
+      for (var i = 0; i < rows; i++) {
+        html += "<tbody>"+"<tr>" +
+          "<td>" + (i + 1) + "</td>" +
+          "<td><input type='text' name='First_Name' id='ins_First_Name["+ i +"]' class='form-control input_data' placeholder='first name'></td>" +
+          "<td><input type='text' name='Last_Name' id='ins_Last_Name[ "+i +"]' class='form-control input_data' placeholder='last name'></td>" +
+          "<td>  <input type='text' name='City' class='form-control input_data' id='ins_City["+i +"]' placeholder='city'></td>" +
+          "</tr>"
+          +"</tbody>";
+      }
+
+      $('table').html(html);
+}
+
+$(".btn-insert-data").click(function(){
+  //  $(".btn-insert-data").attr("disabled","disabled");
+  //  $(".btn-insert-data").text("Saving Data....");
+
+    var json_data=[];
+    $(".input_data").each(function(){
+            var value=$(this).val();
+            var parent_html=$(this).parent();
+            parent_html.html(value);
+            $(this).remove();
+     });
+    $("tbody tr").each(function(){
+         var id=$(this).children().eq(0).text()
+         var First_Name=$(this).children().eq(1).text()
+         var Last_Name=$(this).children().eq(2).text()
+         var City=$(this).children().eq(3).text()
+         var single_data={"id":id,"First_Name":First_Name,"Last_Name":Last_Name,"City":City};
+         json_data.push(single_data);
+    });
+    var string_data=JSON.stringify(json_data)
+    $.ajax({
+            url:'{% url 'insert' %}',
+            type:'POST',
+            data:{data:string_data}
+        })
+        .done(function(response){
+            if(response['error']==false){
+                $("#upt_error").hide();
+                $("#upt_success").text(response['errorMessage']);
+                $("#upt_success").show();
+
+            }
+            else{
+                $("#upt_success").hide();
+                $("#upt_error").text(response['errorMessage']);
+                $("#upt_error").show();
+            }
+        })
+        .fail(function(){
+             $("#upt_success").hide();
+             $("#upt_error").text("Something Went Wrong!");
+             $("#upt_error").show();
+        })
+});
+</script>

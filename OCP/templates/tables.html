@@ -1,0 +1,55 @@
+<label>Number of rows to be generated</label>
+ <input type="number" id="table-row-num" value="0" oninput="myFunction()">
+<div class="container">
+ <div class="row form-group" style="margin-top:30px;">
+ <div class="col-lg-6">
+ <button class="btn btn-block btn-success btn-insert-data Trigger" id="insert_btn" data-toggle="modal" data-target="#insert_data">INSERT</button>
+ </div>
+ <div class="col-lg-6">
+ <a href="{% url 'home' %}" class="btn btn-block btn-success" role="button" aria-pressed="true">View Table</a>
+ </div>
+ </div>
+ <div class="row">
+ <div class="col-lg-12">
+ <div class="alert alert-success" id="upt_success" style="display:none">
+</div>
+ <div class="alert alert-danger" id="upt_error" style="display:none">
+</div>
+ </div>
+ </div>
+ <div id= "table-gen">
+ <form id="form" method="post" action="">
+ <table cellpadding="1" cellspacing="1" border="1">
+ <thead>
+ <tr>
+ <th>First Name</th>
+ <th>Last Name</th>
+ <th>City</th>
+ </tr>
+ </thead>
+ </table>
+ </form>
+ </div>
+</body>
+</html>
+<script>
+function myFunction() {
+ var rows = document.getElementById("table-row-num").value;
+ var html='<thead>'+
+ '<tr>' +
+ '<th>ID</th>' +
+ '<th>First Name</th>'+
+ '<th>Last Name</th>'+
+ '<th>City</th>'+
+ '</thead>';
+ for (var i = 0; i < rows; i++) {
+ html += "<tbody>"+"<tr>" +
+ "<td>" + (i + 1) + "</td>" +
+ "<td><input type='text' name='First_Name' id='ins_First_Name["+ i +"]' class='form-control input_data' placeholder='first name'></td>" +
+ "<td><input type='text' name='Last_Name' id='ins_Last_Name[ "+i +"]' class='form-control input_data' placeholder='last name'></td>" +
+ "<td> <input type='text' name='City' class='form-control input_data' id='ins_City["+i +"]' placeholder='city'></td>" +
+ "</tr>"
+ +"</tbody>";
+ }
+$('table').html(html);
+}
