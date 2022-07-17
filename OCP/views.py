@@ -34,7 +34,7 @@ class InfoListView(SingleTableView):
 ##############################
 
 def HomePage(request):
-    data=Detail.objects.all()
+    data=Details.objects.all()
     return render(request,"homepage.html",{"data":data})
 
 
@@ -45,10 +45,10 @@ def insert(request):
     dict_data=json.loads(str(data))
     try:
         for dic_single in dict_data:
-            details=Detail()
-            details.First_Name=dic_single['First_Name']
-            details.Last_Name=dic_single['Last_Name']
-            details.City=dic_single['City']
+            details=Details()
+            details.First_Name=dic_single['Layer name']
+            details.Last_Name=dic_single['car 1']
+            details.City=dic_single['car 2']
             details.save()
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
@@ -62,10 +62,10 @@ def update_details(request):
     dict_data=json.loads(data)
     try:
         for dic_single in dict_data:
-            details=Detail.objects.get(id=dic_single['id'])
-            details.First_Name=dic_single['First_Name']
-            details.Last_name=dic_single['Last_Name']
-            details.City=dic_single['City']
+            details=Details.objects.get(id=dic_single['id'])
+            details.First_Name=dic_single['Layer name']
+            details.Last_Name=dic_single['car 1']
+            details.City=dic_single['car 2']
             details.save()
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
@@ -77,7 +77,7 @@ def update_details(request):
 def delete_details(request):
     id=request.POST.get("id")
     try:
-        details=Detail.objects.get(id=id)
+        details=Details.objects.get(id=id)
         details.delete()
         response_data={"error":False,"errorMessage":"Deleted Successfully"}
         return JsonResponse(response_data,safe=False)

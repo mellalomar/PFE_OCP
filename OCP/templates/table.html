@@ -56,9 +56,9 @@ table>tr>td input{width:40px;}
         <table cellpadding="1" cellspacing="1" border="1">
           <thead>
           <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>City</th>
+              <th>layer Name</th>
+              <th>car Name</th>
+              <th>car</th>
           </tr>
           </thead>
         </table>
@@ -75,16 +75,16 @@ function myFunction() {
   var html='<thead>'+
     '<tr>'  +
         '<th>ID</th>' +
-          '<th>First Name</th>'+
-        '<th>Last Name</th>'+
-          '<th>City</th>'+
+          '<th>Layer Name</th>'+
+        '<th>Car Name</th>'+
+          '<th>Car</th>'+
       '</thead>';
       for (var i = 0; i < rows; i++) {
         html += "<tbody>"+"<tr>" +
           "<td>" + (i + 1) + "</td>" +
-          "<td><input type='text' name='First_Name' id='ins_First_Name["+ i +"]' class='form-control input_data' placeholder='first name'></td>" +
-          "<td><input type='text' name='Last_Name' id='ins_Last_Name[ "+i +"]' class='form-control input_data' placeholder='last name'></td>" +
-          "<td>  <input type='text' name='City' class='form-control input_data' id='ins_City["+i +"]' placeholder='city'></td>" +
+          "<td><input type='text' name='layer_Name' id='ins_First_Name["+ i +"]' class='form-control input_data' placeholder='Layer'></td>" +
+          "<td><input type='text' name='car_Name' id='ins_Last_Name[ "+i +"]' class='form-control input_data' placeholder='value'></td>" +
+          "<td>  <input type='text' name='Car' class='form-control input_data' id='ins_City["+i +"]' placeholder='value'></td>" +
           "</tr>"
           +"</tbody>";
       }
