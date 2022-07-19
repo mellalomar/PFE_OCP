@@ -56,9 +56,12 @@ table>tr>td input{width:40px;}
         <table cellpadding="1" cellspacing="1" border="1">
           <thead>
           <tr>
-              <th>layer Name</th>
-              <th>car Name</th>
-              <th>car</th>
+              <th>layer Name</th> 
+              <th>BPL</th>
+              <th>MgO</th>
+              <th>MO</th>
+              <th>SiO2</th>
+              <th>CO2</th>
           </tr>
           </thead>
         </table>
@@ -75,16 +78,22 @@ function myFunction() {
   var html='<thead>'+
     '<tr>'  +
         '<th>ID</th>' +
-          '<th>Layer Name</th>'+
-        '<th>Car Name</th>'+
-          '<th>Car</th>'+
+          '<th>Layer Name</th>'+				
+        '<th>BPL</th>'+
+          '<th>MgO</th>'+
+          '<th>MO</th>'+
+          '<th>SiO2</th>'+
+          '<th>CO2</th>'+
       '</thead>';
       for (var i = 0; i < rows; i++) {
         html += "<tbody>"+"<tr>" +
           "<td>" + (i + 1) + "</td>" +
-          "<td><input type='text' name='layer_Name' id='ins_First_Name["+ i +"]' class='form-control input_data' placeholder='Layer'></td>" +
-          "<td><input type='text' name='car_Name' id='ins_Last_Name[ "+i +"]' class='form-control input_data' placeholder='value'></td>" +
-          "<td>  <input type='text' name='Car' class='form-control input_data' id='ins_City["+i +"]' placeholder='value'></td>" +
+          "<td><input type='text' name='layer_Name' id='ins_Name["+ i +"]' class='form-control input_data' placeholder='Layer'></td>" +
+          "<td><input type='number' step='0.01'  name='BPL' id='ins_BPL[ "+i +"]' class='form-control input_data' placeholder='BPL value'></td>" +
+          "<td><input type='number' step='0.01'  name='MgO' id='ins_MgO[ "+i +"]' class='form-control input_data' placeholder='MgO value'></td>" +
+          "<td><input type='number' step='0.01'  name='MO' id='ins_MO[ "+i +"]' class='form-control input_data' placeholder='MO value'></td>" +
+          "<td><input type='number' step='0.01'  name='SiO2' id='ins_SiO2[ "+i +"]' class='form-control input_data' placeholder='SiO2 value'></td>" +
+          "<td><input type='number' step='0.01' name='CO2' id='ins_CO2[ "+i +"]' class='form-control input_data' placeholder='CO2 value'></td>" +
           "</tr>"
           +"</tbody>";
       }
@@ -105,15 +114,19 @@ $(".btn-insert-data").click(function(){
      });
     $("tbody tr").each(function(){
          var id=$(this).children().eq(0).text()
-         var First_Name=$(this).children().eq(1).text()
-         var Last_Name=$(this).children().eq(2).text()
-         var City=$(this).children().eq(3).text()
-         var single_data={"id":id,"First_Name":First_Name,"Last_Name":Last_Name,"City":City};
+         var name=$(this).children().eq(1).text()
+         var BPL=$(this).children().eq(2).text()
+         var MgO=$(this).children().eq(3).text()
+         var MO=$(this).children().eq(4).text()
+         var SiO2=$(this).children().eq(5).text()
+         var CO2=$(this).children().eq(6).text()
+         
+         var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2};
          json_data.push(single_data);
     });
     var string_data=JSON.stringify(json_data)
     $.ajax({
-            url:'{% url 'insert' %}',
+            url:"{% url 'insert' %}",
             type:'POST',
             data:{data:string_data}
         })

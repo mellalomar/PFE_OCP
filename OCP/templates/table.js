@@ -9,10 +9,13 @@ $(".btn-insert-data").click(function(){
      });
      $("tbody tr").each(function(){
      var id=$(this).children().eq(0).text()
-     var First_Name=$(this).children().eq(1).text()
-     var Last_Name=$(this).children().eq(2).text()
-     var City=$(this).children().eq(3).text()
-     var single_data={"id":id,"First_Name":First_Name,"Last_Name":Last_Name,"City":City};
+     var name=$(this).children().eq(1).text()
+     var BPL=$(this).children().eq(2).text()
+     var MgO=$(this).children().eq(3).text()
+     var MO=$(this).children().eq(4).text()
+     var SiO2=$(this).children().eq(5).text()
+     var CO2=$(this).children().eq(6).text()
+     var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2};
      json_data.push(single_data);
      });
      var string_data=JSON.stringify(json_data)

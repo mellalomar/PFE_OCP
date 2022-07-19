@@ -36,9 +36,12 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>City</th>
+                        <th>layer Name</th> 
+                        <th>BPL</th>
+                        <th>MgO</th>
+                        <th>MO</th>
+                        <th>SiO2</th>
+                        <th>CO2</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -46,9 +49,12 @@
                     {% for value in data %}
                     <tr>
                         <td>{{ value.id }}</td>
-                        <td class="editable" data-type="First_Name">{{ value.First_Name }}</td>
-                        <td class="editable" data-type="Last_Name">{{ value.Last_Name }}</td>
-                        <td class="editable" data-type="City">{{ value.City }}</td>
+                        <td class="editable" data-type="name">{{ value.name }}</td>
+                        <td class="editable" data-type="BPL">{{ value.BPL }}</td>
+                        <td class="editable" data-type="MgO">{{ value.MgO }}</td>
+                        <td class="editable" data-type="MO">{{ value.MO }}</td>
+                        <td class="editable" data-type="SiO2">{{ value.SiO2 }}</td>
+                        <td class="editable" data-type="CO2">{{ value.CO2 }}</td>
                         <td class="btn-td-block"><button class="btn btn-block btn-delete btn-danger">DELETE</button></td>
                     </tr>
                     {% endfor %}
@@ -85,10 +91,13 @@
          });
         $("tbody tr").each(function(){
              var id=$(this).children().eq(0).text()
-             var First_Name=$(this).children().eq(1).text()
-             var Last_Name=$(this).children().eq(2).text()
-             var City=$(this).children().eq(3).text()
-             var single_data={"id":id,"First_Name":First_Name,"Last_Name":Last_Name,"City":City};
+             var name=$(this).children().eq(1).text()
+             var BPL=$(this).children().eq(2).number() 
+             var MgO=$(this).children().eq(3).number()
+             var MO=$(this).children().eq(4).number()
+             var SiO2=$(this).children().eq(5).number()
+             var CO2=$(this).children().eq(6).number()
+             var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2};
              json_data.push(single_data);
         });
 
@@ -132,7 +141,7 @@
             var id=this_html.parent().parent().children().first().text();
             //console.log(id);
             $.ajax({
-                url:'{% url 'delete_details' %}',
+                url:"{% url 'delete_details' %}",
                 type:'POST',
                 data:{id:id}
             })

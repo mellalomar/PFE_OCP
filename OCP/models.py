@@ -32,16 +32,18 @@ class Person(models.Model):
 
 class Details(models.Model):
     id=models.AutoField(primary_key=True)
-    First_Name=models.CharField(max_length=30)
-    Last_Name=models.CharField(max_length=30)
-    City=models.CharField(max_length=30)
-
-
+    First_Name=models.CharField(max_length=30,default= 0)
+    Last_Name=models.CharField(max_length=30,default= 0)
+    City=models.CharField(max_length=30,default= 0)
+	
 class Detail(models.Model):
     id=models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name="layer name")
-    car1 = models.CharField(max_length=100, verbose_name="car 1")
-    car1 = models.CharField(max_length=100, verbose_name="car 2")
+    BPL = models.FloatField( default=0, verbose_name="BPL value")
+    MgO = models.FloatField( default=0, verbose_name="MgO value")
+    MO = models.FloatField( default=0, verbose_name="MO value")
+    SiO2 = models.FloatField( default=0, verbose_name="SiO2 value")
+    CO2 = models.FloatField( default=0, verbose_name="CO2 value")
     #Columns = ListCharField(
     #    base_field = models.CharField(max_length=10),
     #    size = info,
