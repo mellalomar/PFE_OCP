@@ -1,5 +1,4 @@
 from numpy import NaN
-import sklearn as sk
 import pandas as pd
 from sklearn.utils import resample
 from sklearn.svm import SVR
@@ -7,7 +6,9 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 from sklearn.model_selection import train_test_split
-
+from sklearn.metrics import mean_absolute_error as mae
+from sklearn.metrics import explained_variance_score as evs
+import pickle
 
 from django.core.management.base import BaseCommand, CommandError
 from OCP.models import Detail
@@ -26,6 +27,8 @@ class Command(BaseCommand):
 
         
         df = df.replace(NaN,0)
+        df = df.replace('-',0)
+        df = df.replace(' - ',)
         df = df.replace(' -     ',0)
         
         SM_BO = df[df['SM-BO'] != 0]
@@ -39,10 +42,10 @@ class Command(BaseCommand):
         SM_MZ = resample(SM_MZ,replace=True,n_samples=500,random_state=len(SM_MZ)-1)
         print(len(SM_MZ))
 
-        SM_NIF = df[df['MAT-NIF'] != 0]
-        SM_NIF =  SM_NIF.drop(["Date","SM-BO","SM-MZ","SFA","DSP","C2 Sup","C4 inf","C5 supA","C5 inf","C6 s+m","C6 inf"],axis=1)
-        SM_NIF = resample(SM_NIF,replace=True,n_samples=500,random_state=len(SM_NIF)-1)
-        print(len(SM_NIF))
+        MAT_NIF = df[df['MAT-NIF'] != 0]
+        MAT_NIF =  MAT_NIF.drop(["Date","SM-BO","SM-MZ","SFA","DSP","C2 Sup","C4 inf","C5 supA","C5 inf","C6 s+m","C6 inf"],axis=1)
+        MAT_NIF = resample(MAT_NIF,replace=True,n_samples=500,random_state=len(MAT_NIF)-1)
+        print(len(MAT_NIF))
 
         SFA = df[df['SFA'] != 0]
         SFA =  SFA.drop(["Date","SM-BO","MAT-NIF","SM-MZ","DSP","C2 Sup","C4 inf","C5 supA","C5 inf","C6 s+m","C6 inf"],axis=1)
@@ -88,17 +91,212 @@ class Command(BaseCommand):
         Y_col = 'SM-BO'
         X_cols = ["BPL","MgO","Fe2O3","SiO2","CO2"]
         X, y = SM_BO[X_cols] , SM_BO[Y_col]
-        print(X.head())
-        print(y)
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-
-        n_samples, n_features = 10, 5
+        #print(X.head())
+        #print(y_train)
+        SM_BO.to_csv("OCP/data/data20.csv")
         rng = np.random.RandomState(0)
-        y = rng.randn(n_samples)
-        X = rng.randn(n_samples, n_features)
         regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X, y)
+        regr.fit(X_train, y_train)
+        with open("OCP/data/SM_BO.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/SM_BO.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+
+        print("------------------------------------------------------")
+        Y_col = 'SM-MZ'
+        X_cols = ["BPL","MgO","Fe2O3","SiO2","CO2"]
+        X, y = SM_MZ[X_cols] , SM_MZ[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+        #print(X.head())
+        #print(y_train)
+        SM_MZ.to_csv("OCP/data/data20.csv")
+        rng = np.random.RandomState(0)
+        regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/SM_MZ.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/SM_MZ.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+
+        print("------------------------------------------------------")
+
+        Y_col = 'MAT-NIF'
+        X, y = MAT_NIF[X_cols] , MAT_NIF[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/MAT_NIF.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/MAT_NIF.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+        print("------------------------------------------------------")
+
+        Y_col = 'SFA'
+        X, y = SFA[X_cols] , SFA[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/SFA.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/SFA.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+        print("------------------------------------------------------")
+
+        Y_col = 'DSP'
+        X, y = DSP[X_cols] , DSP[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/DSP.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/DSP.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+        
+        print("------------------------------------------------------")
+
+        Y_col = 'C2 Sup'
+        X, y = C2_Sup[X_cols] , C2_Sup[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/C2_Sup.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/C2_Sup.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+
+        print("------------------------------------------------------")
+
+        Y_col = 'C4 inf'
+        X, y = C4_inf[X_cols] , C4_inf[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/C4_inf.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/C4_inf.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+        print("------------------------------------------------------")
+
+        Y_col = 'C5 supA'
+        X, y = C5_supA[X_cols] , C5_supA[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/C5_supA.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/C5_supA.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+        print("------------------------------------------------------")
+
+        Y_col = 'C5 inf'
+        X, y = C5_inf[X_cols] , C5_inf[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/C5_inf.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/C5_inf.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+        print("------------------------------------------------------")
+
+        Y_col = 'C6 s+m'
+        X, y = C6_sm[X_cols] , C6_sm[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/C6_sm.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/C6_sm.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
+
+
+        print("------------------------------------------------------")
+
+        Y_col = 'C6 inf'
+        X, y = C6_inf[X_cols] , C6_inf[Y_col]
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        
+        #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+        regr.fit(X_train, y_train)
+        with open("OCP/data/C6_inf.bin","wb") as f:
+            pickle.dump(regr, f)
+        
+        with open("OCP/data/C6_inf.bin", 'rb') as pickle_file:
+            clf = pickle.load(pickle_file)
+        pridections = clf.predict(X_test)
+        print(mae(y_test,pridections))
+        print(evs(y_test,pridections))
 
         #"Date","SM-BO","SM-MZ","MAT-NIF","SFA","DSP","C2 Sup","C4 inf","C5 supA","C5 inf","C6 s+m","C6 inf","BPL","MgO","Fe2O3","SiO2","CO2","BPLnif","MgOnif","Fe2O3nif","SiO2nif","CO2nif"
 
