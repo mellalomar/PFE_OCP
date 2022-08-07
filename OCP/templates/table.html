@@ -67,6 +67,10 @@ table>tr>td input{width:40px;}
         </table>
       </form>
     </div>
+    <div class="col-lg-6">
+      <button type="submit" class="btn btn-block btn-success btn-insert-data Trigger" id="run_script" data-toggle="modal" data-target="#insert_data"> SIMULATE </button>
+      </a>
+    </div>
 </body>
 
 </html>
@@ -87,8 +91,23 @@ function myFunction() {
       '</thead>';
       for (var i = 0; i < rows; i++) {
         html += "<tbody>"+"<tr>" +
-          "<td>" + (i + 1) + "</td>" +
-          "<td><input type='text' name='layer_Name' id='ins_Name["+ i +"]' class='form-control input_data' placeholder='Layer'></td>" +
+          "<td>" + (i + 1) + "</td>" +  
+          "<td>"+  //<input type='text' name='layer_Name' id='ins_Name["+ i +"]' class='form-control input_data' placeholder='Layer'>"+
+            "<select name='layer_Name' id='ins_Name["+ i +"]' class='form-control input_data' placeholder='Layer'>"+
+                "<option > select layer </option>"+
+                "<option > SM-BO </option>"+
+                "<option > SM-MZ </option>"+
+                "<option > MAT-NIF </option>"+
+                "<option > SFA </option>"+
+                "<option > DSP </option>"+
+                "<option > C2 Sup </option>"+
+                "<option > C4 inf </option>"+
+                "<option > C5 supA </option>"+
+                "<option > C5 inf </option>"+
+                "<option > C6 s+m </option>"+
+                "<option > C6 inf </option>"+
+            "</select>" +
+          "</td>" +
           "<td><input type='number' step='0.01'  name='BPL' id='ins_BPL[ "+i +"]' class='form-control input_data' placeholder='BPL value'></td>" +
           "<td><input type='number' step='0.01'  name='MgO' id='ins_MgO[ "+i +"]' class='form-control input_data' placeholder='MgO value'></td>" +
           "<td><input type='number' step='0.01'  name='MO' id='ins_MO[ "+i +"]' class='form-control input_data' placeholder='MO value'></td>" +

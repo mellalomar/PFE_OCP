@@ -39,11 +39,16 @@ def insert(request):
             details.SiO2=dic_single['SiO2']
             details.CO2=dic_single['CO2']
             details.save()
+        if(request.method == 'POST' and 'run_script' in request.POST):
+            print("simulation begin")
+        print(" begin")
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
+        
     except:
         response_data={"error":True,"errorMessage":"Failed to Update Data"}
         return JsonResponse(response_data,safe=False)
+    
 
 @csrf_exempt
 def update_details(request):
