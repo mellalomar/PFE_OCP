@@ -13,4 +13,5 @@ urlpatterns = [
     path('update_details', views.update_details,name="update_details"),
     path('delete_details', views.delete_details,name="delete_details"),
     path('insert_table', views.insert_table,name="insert_table"),
+    path('simulate', views.simulate,name="simulate"),
 ]

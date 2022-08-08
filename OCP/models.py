@@ -4,40 +4,10 @@ import django_tables2 as tables
 from django_mysql.models import ListCharField 
 
 
-# Create your models here.
-info = 5# request.Request.session.get('num column')
-#request.session['Columns_name'] = ['name'].append([f"car {i}" for i in range(info)])
-
-class Info(models.Model):
-    name = models.CharField(max_length=100, verbose_name="full name")
-    Columns = ListCharField(
-        base_field = models.CharField(max_length=10),
-        size = info,
-        max_length=(6 * 11),
-        )
-    Columns_name = ['name'].append([f"car {i}" for i in range(info)])
-#    for i in range(info):
-#        Columns.append( models.CharField(max_length=100, verbose_name="CAR" )) 
-
-
-
-class Person(models.Model):
-    name = models.CharField(max_length=100, verbose_name="full name")
-    car1 = models.CharField(max_length=100, verbose_name="CAR 1")
-    car2 = models.CharField(max_length=100, verbose_name="CAR 2")
-    car3 = models.CharField(max_length=100, verbose_name="CAR 3")
-
-
 #######################################
 
-class Details(models.Model):
-    id=models.AutoField(primary_key=True)
-    First_Name=models.CharField(max_length=30,default= 0)
-    Last_Name=models.CharField(max_length=30,default= 0)
-    City=models.CharField(max_length=30,default= 0)
-	
 class Detail(models.Model):
-    id=models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name="layer name")
     BPL = models.FloatField( default=0, verbose_name="BPL value")
     MgO = models.FloatField( default=0, verbose_name="MgO value")
@@ -49,3 +19,26 @@ class Detail(models.Model):
     #    size = info,
     #    max_length=(6 * 11),
     #    )
+    def __id__(self):
+        return self.id
+        
+
+
+class layers(models.Model):
+    id = models.OneToOneField(
+        Detail,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    SM_BO = models.FloatField( default=0, verbose_name="SM_BO") 
+    SM_MZ = models.FloatField( default=0, verbose_name="SM_MZ")                    
+    MAT_NIF = models.FloatField( default=0, verbose_name="MAT_NIF")
+    SFA = models.FloatField( default=0, verbose_name="SFA")
+    DSP = models.FloatField( default=0, verbose_name="C2_Sup")
+    C2_Sup = models.FloatField( default=0, verbose_name="C2_Sup")
+    C4_inf = models.FloatField( default=0, verbose_name="C4_inf")
+    C5_supA = models.FloatField( default=0, verbose_name="C5_supA")
+    C5_inf = models.FloatField( default=0, verbose_name="C5_inf")
+    C6_sm = models.FloatField( default=0, verbose_name="C6_sm")
+    C6_inf = models.FloatField( default=0, verbose_name="C6_inf")
+    
