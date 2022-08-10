@@ -33,32 +33,35 @@ def insert(request):
     print("insertion start ...")
     try:
         for dic_single in dict_data:
+            print(dic_single)
             details=Detail()
-            details.name=dic_single['name']
-            details.BPL=dic_single['BPL']
-            details.MgO=dic_single['MgO']
-            details.MO=dic_single['MO']
-            details.SiO2=dic_single['SiO2']
-            details.CO2=dic_single['CO2']
-            Mix =dic_single['Mix']
-            if(Mix >= 0):
-                details.Mix = Mix
-            elif(BPL,MgO,MO,SiO2,CO2==0,0,0,0,0):
+            
+            name = dic_single['name']
+            BPL = float(dic_single['BPL'])
+            MgO = float(dic_single['MgO'])
+            MO = float(dic_single['MO'])
+            SiO2 = float(dic_single['SiO2'])
+            CO2 = float(dic_single['CO2'])
+
+            details.name = name
+            details.BPL= BPL
+            details.MgO=MgO
+            details.MO=MO
+            details.SiO2=SiO2
+            details.CO2=CO2
+            
+            if( BPL+MgO+MO+SiO2+CO2 == 0):
                 details.Mix = 0
             else:
-                name = dic_single['name']
-                BPL = dic_single['BPL']
-                MgO = dic_single['MgO']
-                MO = dic_single['MO']
-                SiO2 = dic_single['SiO2']
-                CO2 = dic_single['CO2']
+                
                 details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
             details.save()
-        
+            
+    
         print(" begin")
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
-        
+    
     except:
         response_data={"error":True,"errorMessage":"Failed to insert Data"}
         return JsonResponse(response_data,safe=False)
