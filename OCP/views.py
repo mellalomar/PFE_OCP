@@ -30,6 +30,7 @@ def insert(request):
     #request.session['Columns_name'] = ['name'].append([f"car {i}" for i in range(5)])
     data=request.POST.get("data")
     dict_data=json.loads(str(data))
+    print("insertion start ...")
     try:
         for dic_single in dict_data:
             details=Detail()
@@ -39,15 +40,27 @@ def insert(request):
             details.MO=dic_single['MO']
             details.SiO2=dic_single['SiO2']
             details.CO2=dic_single['CO2']
+            Mix =dic_single['Mix']
+            if(Mix >= 0):
+                details.Mix = Mix
+            elif(BPL,MgO,MO,SiO2,CO2==0,0,0,0,0):
+                details.Mix = 0
+            else:
+                name = dic_single['name']
+                BPL = dic_single['BPL']
+                MgO = dic_single['MgO']
+                MO = dic_single['MO']
+                SiO2 = dic_single['SiO2']
+                CO2 = dic_single['CO2']
+                details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
             details.save()
-        if(request.method == 'POST' and 'run_script' in request.POST):
-            print("simulation begin")
+        
         print(" begin")
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
         
     except:
-        response_data={"error":True,"errorMessage":"Failed to Update Data"}
+        response_data={"error":True,"errorMessage":"Failed to insert Data"}
         return JsonResponse(response_data,safe=False)
     
 
@@ -94,21 +107,63 @@ def simulate(request):
     #request.session['Columns_name'] = ['name'].append([f"car {i}" for i in range(5)])
     data=request.POST.get("data")
     dict_data=json.loads(str(data))
-    #try:
-    for dic_single in dict_data:
+    print("simulation begin")
+    try:
+        for dic_single in dict_data:
+            
+            name = dic_single['name']
+            BPL = dic_single['BPL']
+            MgO = dic_single['MgO']
+            MO = dic_single['MO']
+            SiO2 = dic_single['SiO2']
+            CO2 = dic_single['CO2']
+            if(BPL,MgO,MO,SiO2,CO2==0,0,0,0,0):
+                prediction =0
+            
+            else:
+                prediction = simulation(BPL,MgO,MO,SiO2,CO2,name)
+        res = f"predicted value for    ''  {name}  ''    layer is :    {prediction}"
+        response_data={"error":False,"errorMessage":res}
+        return JsonResponse(response_data,safe=False)
         
-        name = dic_single['name']
-        BPL = dic_single['BPL']
-        MgO = dic_single['MgO']
-        MO = dic_single['MO']
-        SiO2 = dic_single['SiO2']
-        CO2 = dic_single['CO2']
-        prediction = simulation(BPL,MgO,MO,SiO2,CO2,name)
-    res = f"predicted value of {name} is {prediction}"
-    response_data={"error":False,"errorMessage":res}
-    return JsonResponse(response_data,safe=False)
-        
-    #except:
-    #    response_data={"error":True,"errorMessage":"Failed to Simulate"}
-    #    return JsonResponse(response_data,safe=False)
+    except:
+        response_data={"error":True,"errorMessage":"Failed to Simulate"}
+        return JsonResponse(response_data,safe=False)
+
+@csrf_exempt   
+def dashboard(request):
+    data=request.POST.get("data")
+    dict_data=json.loads(str(data))
     
+    try:
+        for dic_single in dict_data:
+            details=Detail()
+            name = dic_single['name']
+            BPL = dic_single['BPL']
+            MgO = dic_single['MgO']
+            MO = dic_single['MO']
+            SiO2 = dic_single['SiO2']
+            CO2 = dic_single['CO2']
+            details.name = name
+            details.BPL = BPL
+            details.MgO = MgO
+            details.MO = MO
+            details.SiO2 = SiO2
+            details.CO2 = CO2
+            if([BPL,MgO,MO,SiO2,CO2]==[0,0,0,0,0]):
+                details.Mix = 0
+            else:
+                details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
+            details.save()
+            print("  mix %  >>>>>>" + str(details.Mix))
+        
+        response_data={"error":False,"errorMessage":"Updated Successfully !!"}
+        #return JsonResponse(response_data,safe=False)
+        
+    except:
+        response_data={"error":True,"errorMessage":"Failed to Update Data"}
+        #return JsonResponse(response_data,safe=False)
+    #return render(request,"dashboard.html")
+    data=Detail.objects.all()
+    print("start " + str(dict_data))
+    return render(request,"dashboard.html",{"data":data})

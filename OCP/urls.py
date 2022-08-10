@@ -14,4 +14,5 @@ urlpatterns = [
     path('delete_details', views.delete_details,name="delete_details"),
     path('insert_table', views.insert_table,name="insert_table"),
     path('simulate', views.simulate,name="simulate"),
+    path('dashboard', views.dashboard,name="dashboard"),
 ]

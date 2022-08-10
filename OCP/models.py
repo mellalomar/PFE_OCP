@@ -14,6 +14,7 @@ class Detail(models.Model):
     MO = models.FloatField( default=0, verbose_name="MO value")
     SiO2 = models.FloatField( default=0, verbose_name="SiO2 value")
     CO2 = models.FloatField( default=0, verbose_name="CO2 value")
+    Mix = models.FloatField( default=0, verbose_name="mix value")
     #Columns = ListCharField(
     #    base_field = models.CharField(max_length=10),
     #    size = info,
