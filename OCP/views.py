@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
-from django_tables2 import Table
+
 from .models import  Detail
 #from .templates.table import PersonTable,InfoTable
 from django_tables2 import SingleTableView
@@ -31,6 +31,7 @@ def insert(request):
     data=request.POST.get("data")
     dict_data=json.loads(str(data))
     print("insertion start ...")
+
     try:
         for dic_single in dict_data:
             print(dic_single)
@@ -54,7 +55,7 @@ def insert(request):
                 details.Mix = 0
             else:
                 
-                details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
+                details.Mix = round(simulation(BPL,MgO,MO,SiO2,CO2,name),2)
             details.save()
             
     
@@ -111,6 +112,7 @@ def simulate(request):
     data=request.POST.get("data")
     dict_data=json.loads(str(data))
     print("simulation begin")
+    Data = ""
     try:
         for dic_single in dict_data:
             
@@ -125,13 +127,23 @@ def simulate(request):
             
             else:
                 prediction = simulation(BPL,MgO,MO,SiO2,CO2,name)
+            Data = Data +"{" +f"'id': '', 'name': '{name}', 'BPL': '{BPL}', 'MgO': '{MgO}', 'MO': '{MO}', 'SiO2': '{SiO2}', 'CO2': '{CO2}', 'Mix': '{prediction}'"+"}"
         res = f"predicted value for    ''  {name}  ''    layer is :    {prediction}"
         response_data={"error":False,"errorMessage":res}
+        print(res)
+        
+        #return render(request,"simulate.html",{"data":Data})
+        
         return JsonResponse(response_data,safe=False)
         
     except:
         response_data={"error":True,"errorMessage":"Failed to Simulate"}
-        return JsonResponse(response_data,safe=False)
+        rep = JsonResponse(response_data,safe=False)
+    print("Done")
+    return rep
+    
+
+
 
 @csrf_exempt   
 def dashboard(request):

@@ -22,7 +22,8 @@ class Detail(models.Model):
     #    )
     def __id__(self):
         return self.id
-        
+    class Meta:
+        ordering = ('-id',)
 
 
 class layers(models.Model):
