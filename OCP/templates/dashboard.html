@@ -100,6 +100,7 @@
              var SiO2=$(this).children().eq(5).number()
              var CO2=$(this).children().eq(6).number()
              var Mix=$(this).children().eq(7).number()
+             //parseFloat(Mix.toFixed(2))
              var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"Mix":Mix};
              json_data.push(single_data);
         });
