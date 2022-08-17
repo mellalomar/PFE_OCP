@@ -3,7 +3,16 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <style>
-body {background: '#bassa55'; font-family: sans-serif;}
+body {
+  
+  width: 100%;
+     height: 100vh;
+      background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url(https://geo.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2FGEO.2Fvar.2Fgeo.2Fstorage.2Fimages.2Fmedia.2Fimages.2Fle-phosphate-un-enjeu-mondial-pour-le-siecle-a-venir.2F2463818-1-fre-FR.2Fle-phosphate-un-enjeu-mondial-pour-le-siecle-a-venir.2Ejpg/1280x720/background-color/ffffff/quality/70/le-phosphate-un-enjeu-mondial-pour-le-siecle-a-venir.jpg);
+       background-size: cover;
+       background-position: center; 
+
+
+}
 
 p {margin: 1em 0 .5em}
 
@@ -17,30 +26,32 @@ input[type="submit"]{
     margin-top: .5em
 }
 table>tr>td{width:80px;}
+table>th{color: aliceblue;}
 table>tr>td input{width:40px;}
 </style>
 
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
   <meta charset="utf-8">
-  <title>Dynamic Table</title>
+  <title>OCP simulateur</title>
 </head>
 <body>
-
+  
+  <div class="logo" style="padding-left: 1000px;">
+    <img style="border-radius: 20%;width: 190px;height: 90px;"  src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/OCP_Group.svg/1200px-OCP_Group.svg.png" >
+  </div>
+  
 
 
 <!-------------------------------------------------------------------------------------------------------------------->
- <label>Number of rows to be generated</label>
+<div style="color: aliceblue ;text-align: center;padding: 4%;0% 0.5% 0%">
+  
+  <label >Le nombre des couches</label>
     <input type="number" id="table-row-num" value="0" oninput="myFunction()">
-
+    
+   
+</div> 
     <div class="container">
-        <div class="row form-group" style="margin-top:30px;">
-            <div class="col-lg-6">
-                <button class="btn btn-block btn-success btn-insert-data Trigger" id="insert_btn" data-toggle="modal" data-target="#insert_data">INSERT</button>
-            </div>
-            <div class="col-lg-6">
-                <a href="{% url 'home' %}" class="btn btn-block btn-success" role="button" aria-pressed="true">View Table</a>
-            </div>
-        </div>
+      </div>
         <div class="row">
             <div class="col-lg-12">
                   <div class="alert alert-success" id="upt_success" style="display:none">
@@ -51,26 +62,31 @@ table>tr>td input{width:40px;}
                   </div>
             </div>
         </div>
-    <div id= "table-gen">
+    <div id= "table-gen" style="padding:0px 100px 0px 100px;">
         <form id="form" method="post" action="">
         <table cellpadding="1" cellspacing="1" border="1">
-          <thead>
+          <thead style="color:aliceblue ;" >
           <tr>
-              <th>layer Name</th> 
+              <th>Couches</th> 
               <th>BPL</th>
               <th>MgO</th>
               <th>MO</th>
               <th>SiO2</th>
               <th>CO2</th>
+              <th>Distance</th>
           </tr>
           </thead>
         </table>
       </form>
     </div>
-    <div class="col-lg-6">
-      <button type="submit" class="btn btn-block btn-success btn-insert-data Trigger" id="run_script" data-toggle="modal" data-target="#insert_data"> SIMULATE </button>
-      </a>
-    </div>
+    <div class="row form-group"  >
+      <div class="col-lg-6" style="padding-left:300px ; ">
+          <button class="btn btn-block btn-success btn-insert-data Trigger"  id="insert_btn" data-toggle="modal" data-target="#insert_data">Insérer et simuler</button>
+      </div>
+      <div class="col-lg-6" style="padding-right:300px ; ">
+          <a href="{% url 'home' %}" class="btn btn-block btn-success"  role="button" aria-pressed="true">Voir les résultats</a>
+      </div>
+  
 </body>
 
 </html>
@@ -79,15 +95,16 @@ table>tr>td input{width:40px;}
 
 function myFunction() {
   var rows =  document.getElementById("table-row-num").value;
-  var html='<thead>'+
+  var html='<thead style="color:aliceblue ;">'+
     '<tr>'  +
         '<th>ID</th>' +
-          '<th>Layer Name</th>'+				
+          '<th>Couches</th>'+				
         '<th>BPL</th>'+
           '<th>MgO</th>'+
           '<th>MO</th>'+
           '<th>SiO2</th>'+
           '<th>CO2</th>'+
+          '<th>Distance</th>'+
           '<th>MIX %</th>'+
       '</thead>';
       for (var i = 0; i < rows; i++) {
@@ -114,6 +131,8 @@ function myFunction() {
           "<td><input type='number' step='0.01'  name='MO' id='ins_MO[ "+i +"]' class='form-control input_data' value='0'></td>" +
           "<td><input type='number' step='0.01'  name='SiO2' id='ins_SiO2[ "+i +"]' class='form-control input_data' value='0'></td>" +
           "<td><input type='number' step='0.01' name='CO2' id='ins_CO2[ "+i +"]' class='form-control input_data' value='0'></td>" +
+          "<td><input type='number' step='0.01' name='distance' id='ins_CO2[ "+i +"]' class='form-control input_data' value='0' ></td>" +
+          
           "<td>   </td>" +
           "</tr>"
           +"</tbody>";
