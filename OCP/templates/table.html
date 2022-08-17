@@ -79,7 +79,6 @@ table>tr>td input{width:40px;}
         </table>
       </form>
     </div>
-<<<<<<< HEAD
     <div class="row form-group"  >
       <div class="col-lg-6" style="padding-left:300px ; ">
           <button class="btn btn-block btn-success btn-insert-data Trigger"  id="insert_btn" data-toggle="modal" data-target="#insert_data">Insérer et simuler</button>
@@ -88,12 +87,6 @@ table>tr>td input{width:40px;}
           <a href="{% url 'home' %}" class="btn btn-block btn-success"  role="button" aria-pressed="true">Voir les résultats</a>
       </div>
   
-=======
-    <div class="col-lg-6">
-      <button type="submit" class="btn btn-block btn-success btn-simulate-data Trigger" id="run_script" data-toggle="modal" data-target="#insert_data"> SIMULATE </button>
-      </a>
-    </div>
->>>>>>> 0733885f9e7692770b2136dd211176f72509805f
 </body>
 
 </html>
@@ -195,55 +188,5 @@ $(".btn-insert-data").click(function(){
              $("#upt_error").text("Something Went Wrong!");
              $("#upt_error").show();
         })
-        
-});
-$(".btn-simulate-data").click(function(){
-  //  $(".btn-insert-data").attr("disabled","disabled");
-  //  $(".btn-insert-data").text("Saving Data....");
-
-    var json_data=[];
-    $(".input_data").each(function(){
-            var value=$(this).val();
-            var parent_html=$(this).parent();
-            parent_html.html(value);
-            $(this).remove();
-     });
-    $("tbody tr").each(function(){
-         var id=$(this).children().eq(0).text()
-         var name=$(this).children().eq(1).text()
-         var BPL=$(this).children().eq(2).text()
-         var MgO=$(this).children().eq(3).text()
-         var MO=$(this).children().eq(4).text()
-         var SiO2=$(this).children().eq(5).text()
-         var CO2=$(this).children().eq(6).text()
-         
-         var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2};
-         json_data.push(single_data);
-    });
-    var string_data=JSON.stringify(json_data)
-    $.ajax({
-            url:"{% url 'simulate' %}",
-            type:'POST',
-            data:{data:string_data}
-        })
-        .done(function(response){
-            if(response['error']==false){
-                $("#upt_error").hide();
-                $("#upt_success").text(response['errorMessage']);
-                $("#upt_success").show();
-
-            }
-            else{
-                $("#upt_success").hide();
-                $("#upt_error").text(response['errorMessage']);
-                $("#upt_error").show();
-            }
-        })
-        .fail(function(){
-             $("#upt_success").hide();
-             $("#upt_error").text("Something Went Wrong!");
-             $("#upt_error").show();
-        })
-        
 });
 </script>

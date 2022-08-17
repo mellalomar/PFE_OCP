@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 from numpy import NaN
-import numpy
 import sklearn as sk
 import pandas as pd
 from sklearn.utils import resample
@@ -100,7 +99,5 @@ def simulation(BPL,MgO,Fe2O3,SiO2,CO2,layer):
 
     X_test = np.array([BPL,MgO,Fe2O3,SiO2,CO2])
     pridections = clf.predict(X_test.reshape(1, -1))
-    pridections = numpy.round(pridections[0],2) 
+    
     return pridections
-
-

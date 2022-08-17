@@ -99,13 +99,13 @@ class Command(BaseCommand):
         SM_BO.to_csv("OCP/data/data20.csv")
         rng = np.random.RandomState(0)
         regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/SM_BO.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/SM_BO.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -122,13 +122,13 @@ class Command(BaseCommand):
         SM_MZ.to_csv("OCP/data/data20.csv")
         rng = np.random.RandomState(0)
         regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/SM_MZ.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/SM_MZ.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -141,7 +141,7 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/MAT_NIF.bin","wb") as f:
             pickle.dump(regr, f)
         
@@ -159,13 +159,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/SFA.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/SFA.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -177,13 +177,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/DSP.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/DSP.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -196,13 +196,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/C2_Sup.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/C2_Sup.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -215,13 +215,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/C4_inf.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/C4_inf.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -233,13 +233,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/C5_supA.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/C5_supA.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -251,13 +251,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/C5_inf.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/C5_inf.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -269,13 +269,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/C6_sm.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/C6_sm.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 
@@ -288,13 +288,13 @@ class Command(BaseCommand):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
         
         #regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
-        regr.fit(X_train.values, y_train.values)
+        regr.fit(X_train, y_train)
         with open("OCP/data/C6_inf.bin","wb") as f:
             pickle.dump(regr, f)
         
         with open("OCP/data/C6_inf.bin", 'rb') as pickle_file:
             clf = pickle.load(pickle_file)
-        pridections = clf.predict(X_test.values)
+        pridections = clf.predict(X_test)
         print(mae(y_test,pridections))
         print(evs(y_test,pridections))
 

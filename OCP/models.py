@@ -22,15 +22,9 @@ class Detail(models.Model):
     #    )
     def __id__(self):
         return self.id
-<<<<<<< HEAD
         
     class Meta:
         ordering = ('-id',)
-=======
-    class Meta:
-        ordering = ('-id',)
-
->>>>>>> 0733885f9e7692770b2136dd211176f72509805f
 
 class layers(models.Model):
     id = models.OneToOneField(
