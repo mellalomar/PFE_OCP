@@ -15,7 +15,8 @@ $(".btn-insert-data").click(function(){
      var MO=$(this).children().eq(4).text()
      var SiO2=$(this).children().eq(5).text()
      var CO2=$(this).children().eq(6).text()
-     var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2};
+     var distance=$(this).children().eq(7).text()
+     var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"distance":distance};
      json_data.push(single_data);
      });
      var string_data=JSON.stringify(json_data)

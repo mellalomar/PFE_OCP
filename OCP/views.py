@@ -42,6 +42,7 @@ def insert(request):
             MO = float(dic_single['MO'])
             SiO2 = float(dic_single['SiO2'])
             CO2 = float(dic_single['CO2'])
+            distance = float(dic_single['distance'])
 
             details.name = name
             details.BPL= BPL
@@ -49,6 +50,7 @@ def insert(request):
             details.MO=MO
             details.SiO2=SiO2
             details.CO2=CO2
+            details.distance=distance
             
             if( BPL+MgO+MO+SiO2+CO2 == 0):
                 details.Mix = 0
@@ -80,6 +82,7 @@ def update_details(request):
             details.MO=dic_single['MO']
             details.SiO2=dic_single['SiO2']
             details.CO2=dic_single['CO2']
+            details.distance=dic_single['distance']
             details.save()
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
@@ -120,6 +123,7 @@ def simulate(request):
             MO = dic_single['MO']
             SiO2 = dic_single['SiO2']
             CO2 = dic_single['CO2']
+            distance = dic_single['distance']
             if(BPL,MgO,MO,SiO2,CO2==0,0,0,0,0):
                 prediction =0
             
@@ -147,12 +151,14 @@ def dashboard(request):
             MO = dic_single['MO']
             SiO2 = dic_single['SiO2']
             CO2 = dic_single['CO2']
+            distance = dic_single['distance']
             details.name = name
             details.BPL = BPL
             details.MgO = MgO
             details.MO = MO
             details.SiO2 = SiO2
             details.CO2 = CO2
+            details.distance = distance
             if([BPL,MgO,MO,SiO2,CO2]==[0,0,0,0,0]):
                 details.Mix = 0
             else:

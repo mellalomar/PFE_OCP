@@ -60,7 +60,7 @@
                     
                     {% for value in data %}
                     <tr>
-                        <td>{{ value.id }}</td> 
+                        <td>{{value.id}}</td> 
                         <td class="editable" data-type="name">{{ value.name }}</td>
                         <td class="editable" data-type="BPL">{{ value.BPL }}</td>
                         <td class="editable" data-type="MgO">{{ value.MgO }}</td>
@@ -68,12 +68,12 @@
                         <td class="editable" data-type="SiO2">{{ value.SiO2 }}</td>
                         <td class="editable" data-type="CO2">{{ value.CO2 }}</td>
                         <td class="editable" style="background-color:green ;border-radius: 15%;" data-type="Mix">{{ value.Mix|floatformat:2 }}%</td>
-                        <td class="editable" style="background-color:rgb(106, 158, 106) ;border-radius: 15%;" data-type="Mix">-</td>
+                        <td class="editable" style="background-color:rgb(106, 158, 106) ;border-radius: 15%;" data-type="distance">{{ value.distance }}</td>
                         <td class="btn-td-block"><button class="btn btn-block btn-delete btn-danger">DELETE</button></td>
                     </tr>
 
                     {% endfor %}
-                    <tr><td>Moyenne</td><td>-</td><td>{{x}}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>100%</td> </tr>
+                    <tr><td>Moyenne</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>100%</td> </tr>
                     
                 </tbody>
                 </table>
@@ -134,8 +134,9 @@
              var MO=$(this).children().eq(4).number()
              var SiO2=$(this).children().eq(5).number()
              var CO2=$(this).children().eq(6).number()
-             var Mix=$(this).children().eq(7).number()
-             var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"Mix":Mix};
+             var distance=$(this).children().eq(7).number()
+             var Mix=$(this).children().eq(8).number()
+             var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"distance":distance,"Mix":Mix};
              json_data.push(single_data);
         });
 
