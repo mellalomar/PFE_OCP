@@ -74,6 +74,7 @@ table>tr>td input{width:40px;}
               <th>SiO2</th>
               <th>CO2</th>
               <th>Distance</th>
+              
           </tr>
           </thead>
         </table>
@@ -105,7 +106,7 @@ function myFunction() {
           '<th>SiO2</th>'+
           '<th>CO2</th>'+
           '<th>Distance</th>'+
-          '<th>MIX %</th>'+
+         
       '</thead>';
       for (var i = 0; i < rows; i++) {
         html += "<tbody>"+"<tr>" +
@@ -131,7 +132,7 @@ function myFunction() {
           "<td><input type='number' step='0.01'  name='MO' id='ins_MO[ "+i +"]' class='form-control input_data' value='0'></td>" +
           "<td><input type='number' step='0.01'  name='SiO2' id='ins_SiO2[ "+i +"]' class='form-control input_data' value='0'></td>" +
           "<td><input type='number' step='0.01' name='CO2' id='ins_CO2[ "+i +"]' class='form-control input_data' value='0'></td>" +
-          "<td><input type='number' step='0.01' name='distance' id='ins_CO2[ "+i +"]' class='form-control input_data' value='0' ></td>" +
+          "<td><input type='number' step='0.01' name='distance' id='ins_dist[ "+i +"]' class='form-control input_data' value='0' ></td>" +
           
           "<td>   </td>" +
           "</tr>"
@@ -161,6 +162,7 @@ $(".btn-insert-data").click(function(){
          var SiO2=$(this).children().eq(5).text()
          var CO2=$(this).children().eq(6).text()
          var distance=$(this).children().eq(7).text()
+     
          var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"distance":distance};
          json_data.push(single_data);
     });

@@ -68,7 +68,7 @@
                         <td class="editable" data-type="SiO2">{{ value.SiO2 }}</td>
                         <td class="editable" data-type="CO2">{{ value.CO2 }}</td>
                         <td class="editable" style="background-color:green ;border-radius: 15%;" data-type="Mix">{{ value.Mix|floatformat:2 }}%</td>
-                        <td class="editable" style="background-color:rgb(106, 158, 106) ;border-radius: 15%;" data-type="distance">{{ value.distance }}</td>
+                        <td class="editable" style="background-color:rgb(106, 158, 106) ;border-radius: 15%;" data-type="distance">{{ value.distance|floatformat:0 }}</td>
                         <td class="btn-td-block"><button class="btn btn-block btn-delete btn-danger">DELETE</button></td>
                     </tr>
 

@@ -10,7 +10,7 @@ from django_tables2 import SingleTableView
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 from .management.commands.simulate import simulation 
-
+from math import floor
 
 
 def home(request):
@@ -43,7 +43,7 @@ def insert(request):
             SiO2 = float(dic_single['SiO2'])
             CO2 = float(dic_single['CO2'])
             distance = float(dic_single['distance'])
-
+           
             details.name = name
             details.BPL= BPL
             details.MgO=MgO
@@ -52,13 +52,19 @@ def insert(request):
             details.CO2=CO2
             details.distance=distance
             
+            
             if( BPL+MgO+MO+SiO2+CO2 == 0):
                 details.Mix = 0
             else:
                 
                 details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
+           
+            temps=distance/667
+            NV=floor((details.Mix/100)*38)
+            CD=temps*2+2.5+1.82
+            R=floor((CD*NV)/60)
+            details.distance=R
             details.save()
-            
     
         print(" begin")
         response_data={"error":False,"errorMessage":"Updated Successfully"}
@@ -83,6 +89,7 @@ def update_details(request):
             details.SiO2=dic_single['SiO2']
             details.CO2=dic_single['CO2']
             details.distance=dic_single['distance']
+            
             details.save()
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
