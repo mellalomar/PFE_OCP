@@ -31,11 +31,14 @@ def insert(request):
     data=request.POST.get("data")
     dict_data=json.loads(str(data))
     print("insertion start ...")
+    s = 0
+    Detail.objects.all().delete()
     try:
+        
         for dic_single in dict_data:
             print(dic_single)
-            details=Detail()
             
+            details=Detail()
             name = dic_single['name']
             BPL = float(dic_single['BPL'])
             MgO = float(dic_single['MgO'])
@@ -58,7 +61,34 @@ def insert(request):
             else:
                 
                 details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
+                s += details.Mix
+        for dic_single in dict_data:
+            print(dic_single)
+            details=Detail()
+            
+            name = dic_single['name']
+            BPL = float(dic_single['BPL'])
+            MgO = float(dic_single['MgO'])
+            MO = float(dic_single['MO'])
+            SiO2 = float(dic_single['SiO2'])
+            CO2 = float(dic_single['CO2'])
+            distance = float(dic_single['distance'])
            
+            details.name = name
+            details.BPL= BPL
+            details.MgO=MgO
+            details.MO=MO
+            details.SiO2=SiO2
+            details.CO2=CO2
+            details.distance=distance
+            
+            
+            if( BPL+MgO+MO+SiO2+CO2 == 0):
+                tempMix = 0
+            else:
+                
+                tempMix = simulation(BPL,MgO,MO,SiO2,CO2,name)
+            details.Mix = tempMix*100/s
             temps=distance/667
             NV=floor((details.Mix/100)*38)
             CD=temps*2+2.5+1.82
@@ -67,6 +97,7 @@ def insert(request):
             details.save()
     
         print(" begin")
+
         response_data={"error":False,"errorMessage":"Updated Successfully"}
         return JsonResponse(response_data,safe=False)
     
@@ -183,3 +214,6 @@ def dashboard(request):
     data=Detail.objects.all()
     print("start " + str(dict_data))
     return render(request,"dashboard.html",{"data":data})
+
+
+

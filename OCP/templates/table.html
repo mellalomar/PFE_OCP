@@ -28,6 +28,16 @@ input[type="submit"]{
 table>tr>td{width:80px;}
 table>th{color: aliceblue;}
 table>tr>td input{width:40px;}
+
+
+
+
+
+
+
+
+
+
 </style>
 
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
@@ -82,7 +92,7 @@ table>tr>td input{width:40px;}
     </div>
     <div class="row form-group"  >
       <div class="col-lg-6" style="padding-left:300px ; ">
-          <button class="btn btn-block btn-success btn-insert-data Trigger"  id="insert_btn" data-toggle="modal" data-target="#insert_data">Insérer et simuler</button>
+          <button class="btn btn-block btn-success btn-insert-data Trigger isvalid"  id="insert_btn" data-toggle="modal" data-target="#insert_data">Insérer et simuler</button>
       </div>
       <div class="col-lg-6" style="padding-right:300px ; ">
           <a href="{% url 'home' %}" class="btn btn-block btn-success"  role="button" aria-pressed="true">Voir les résultats</a>
@@ -162,9 +172,30 @@ $(".btn-insert-data").click(function(){
          var SiO2=$(this).children().eq(5).text()
          var CO2=$(this).children().eq(6).text()
          var distance=$(this).children().eq(7).text()
-     
+         var B=""
+         var S=""
+         var M=""
+         
+         if ( SiO2 > 16 )
+             S="SiO2 doit être inférieure à 16"
+
+         if ( BPL > 52.60 )
+             B="BPL doit être inférieure à 52.60"
+         
+         if ( MgO > 1.5 )
+             M="MgO doit être inférieure à 1.5"
+         
+
+         if(M.length || B.length || S.length){
+            alert(M+"\n"+S+"\n"+B)
+          $("#upt_success").hide();
+           $("#upt_error").text(response['errorMessage']);
+           $("#upt_error").show();
+         }
+         
          var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"distance":distance};
          json_data.push(single_data);
+        
     });
     var string_data=JSON.stringify(json_data)
     $.ajax({
@@ -191,4 +222,5 @@ $(".btn-insert-data").click(function(){
              $("#upt_error").show();
         })
 });
+
 </script>
