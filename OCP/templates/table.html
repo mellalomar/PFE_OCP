@@ -101,6 +101,46 @@ table>tr>td input{width:40px;}
 </body>
 
 </html>
+<datalist id="BPL">
+  <option value="46.78">
+  <option value="52.54">
+  <option value="56.22">  
+  <option value="50.72">
+  <option value="58.44">
+  <option value="51.78">
+</datalist>
+<datalist id="MgO">
+    <option value="2.46">
+    <option value="1.8">
+    <option value="1.38">  
+    <option value="2.10">
+    <option value="0.73">
+    <option value="1.20">
+</datalist>
+<datalist id="MO">
+    <option value="4">
+    <option value="3.30">
+    <option value="2.22">  
+    <option value="3">
+    <option value="3.03">
+    <option value="1.97"> 
+</datalist>
+<datalist id="SiO2">
+    <option value="25">
+    <option value="15.85">
+    <option value="13.84">  
+    <option value="10.12">
+    <option value="11.60">
+    <option value="18.72">
+</datalist>
+<datalist id="CO2">
+    <option value="8.96">
+    <option value="8.72">
+    <option value="9.54">  
+    <option value="10.66">
+    <option value="6.05">
+    <option value="7.20">
+</datalist>
 
 <script>
 
@@ -137,12 +177,12 @@ function myFunction() {
                 "<option > C6 inf </option>"+
             "</select>" +
           "</td>" +
-          "<td><input type='number' step='0.01'  name='BPL' id='ins_BPL[ "+i +"]' class='form-control input_data' value='0'></td>" +
-          "<td><input type='number' step='0.01'  name='MgO' id='ins_MgO[ "+i +"]' class='form-control input_data' value='0'></td>" +
-          "<td><input type='number' step='0.01'  name='MO' id='ins_MO[ "+i +"]' class='form-control input_data' value='0'></td>" +
-          "<td><input type='number' step='0.01'  name='SiO2' id='ins_SiO2[ "+i +"]' class='form-control input_data' value='0'></td>" +
-          "<td><input type='number' step='0.01' name='CO2' id='ins_CO2[ "+i +"]' class='form-control input_data' value='0'></td>" +
-          "<td><input type='number' step='0.01' name='distance' id='ins_dist[ "+i +"]' class='form-control input_data' value='0' ></td>" +
+          "<td><input type='number' step='0.01' list='BPL'  name='BPL' id='ins_BPL[ "+i +"]' class='form-control input_data' ></td>" +
+          "<td><input type='number' step='0.01' list='MgO' name='MgO' id='ins_MgO[ "+i +"]' class='form-control input_data' ></td>" +
+          "<td><input type='number' step='0.01' list='MO' name='MO' id='ins_MO[ "+i +"]' class='form-control input_data' ></td>" +
+          "<td><input type='number' step='0.01' list='SiO2' name='SiO2' id='ins_SiO2[ "+i +"]' class='form-control input_data' ></td>" +
+          "<td><input type='number' step='0.01' list='CO2' name='CO2' id='ins_CO2[ "+i +"]' class='form-control input_data' ></td>" +
+          "<td><input type='number' step='0.01'  name='distance' id='ins_dist[ "+i +"]' class='form-control input_data'  ></td>" +
           
           "<td>   </td>" +
           "</tr>"
@@ -176,14 +216,14 @@ $(".btn-insert-data").click(function(){
          var S=""
          var M=""
          
-         if ( SiO2 > 16 )
+       /*  if ( SiO2 > 16 )
              S="SiO2 doit être inférieure à 16"
 
          if ( BPL > 52.60 )
              B="BPL doit être inférieure à 52.60"
          
          if ( MgO > 1.5 )
-             M="MgO doit être xx inférieure à 1.5"
+             M="MgO doit être inférieure à 1.5"
          
 
          if(M.length || B.length || S.length){
@@ -191,7 +231,7 @@ $(".btn-insert-data").click(function(){
           $("#upt_success").hide();
            $("#upt_error").text(response['errorMessage']);
            $("#upt_error").show();
-         }
+         }*/
          
          var single_data={"id":id,"name":name,"BPL":BPL,"MgO":MgO,"MO":MO,"SiO2":SiO2,"CO2":CO2,"distance":distance};
          json_data.push(single_data);

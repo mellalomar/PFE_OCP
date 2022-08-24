@@ -91,9 +91,9 @@
                             
                             x=parseFloat(table.rows[i].cells[7].innerHTML.split("%"));
                             
-                            sum = sum + parseFloat(table.rows[i].cells[j].innerHTML)*(x/100);
+                            sum = sum + parseFloat(table.rows[i].cells[j].innerHTML)*x;
                          }  
-                            tr.insertCell(j).textContent =sum.toFixed(2);
+                            tr.insertCell(j).textContent =(sum/100).toFixed(2);
                         }
                          sum=0;
                         tr.insertCell(7).textContent ="100%";

@@ -32,11 +32,27 @@ def insert(request):
     dict_data=json.loads(str(data))
     print("insertion start ...")
     s = 0
+    avgbpl = 0
+    avgmgo = 0
+    avgsio = 0
     Detail.objects.all().delete()
+    for dic_single in dict_data:
+         
+            name = dic_single['name']
+            BPL = float(dic_single['BPL'])
+            MgO = float(dic_single['MgO'])
+            MO = float(dic_single['MO'])
+            SiO2 = float(dic_single['SiO2'])
+            CO2 = float(dic_single['CO2'])
+            if( BPL+MgO+MO+SiO2+CO2 == 0):
+                s+= 0
+            else:
+                s+= simulation(BPL,MgO,MO,SiO2,CO2,name)
+
+    
     try:
         
         for dic_single in dict_data:
-            print(dic_single)
             
             details=Detail()
             name = dic_single['name']
@@ -46,7 +62,6 @@ def insert(request):
             SiO2 = float(dic_single['SiO2'])
             CO2 = float(dic_single['CO2'])
             distance = float(dic_single['distance'])
-           
             details.name = name
             details.BPL= BPL
             details.MgO=MgO
@@ -61,7 +76,25 @@ def insert(request):
             else:
                 
                 details.Mix = simulation(BPL,MgO,MO,SiO2,CO2,name)
-                s += details.Mix
+                x=details.Mix*100/s
+                avgbpl += x*BPL
+                avgmgo += x*MgO
+                avgsio += x*SiO2
+        alert=""
+        ##alert=f"BPL{avgbpl/100}MGO{avgmgo/100}SI2O{avgsio/100}"
+        if(avgbpl/100<=52.60):
+            alert +=f"[{avgbpl/100} La moyenne BPL doit être supérieure à 52.60 ] \n"
+        
+        if(avgmgo/100>=1.70):
+            alert +=f" [{avgmgo/100} La moyenne MgO doit être inférieure à 1.7 ]   \n"
+        
+        if(avgsio/100>=16):
+            alert +=f" [{avgsio/100} La moyenne SiO2 doit être inférieure à 16 ]   \t"
+        print(alert)
+        if(alert!=""):
+            alert = "" + alert
+            response_data={"error":True,"errorMessage":alert}
+            return JsonResponse(response_data,safe=False)
         for dic_single in dict_data:
             print(dic_single)
             details=Detail()
@@ -214,6 +247,3 @@ def dashboard(request):
     data=Detail.objects.all()
     print("start " + str(dict_data))
     return render(request,"dashboard.html",{"data":data})
-
-
-
